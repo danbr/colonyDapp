@@ -70,10 +70,14 @@ const Extensions = ({ colonyAddress }: Props) => {
       return extensions.reduce((availableExtensions, extensionName) => {
         /*
          * @NOTE Temporary disable the coin machine extension in the list
-         *
-         * This will be re-enabled in the Coin Machine feature branch
          */
         if (extensionName === Extension.CoinMachine) {
+          return availableExtensions;
+        }
+        /*
+         * @NOTE Temporary disable the whitelist extension in the list
+         */
+        if (extensionName === Extension.Whitelist) {
           return availableExtensions;
         }
         const installedExtension = installedExtensions.find(
