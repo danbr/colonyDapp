@@ -6,7 +6,6 @@ import { Address } from '~types/index';
 import {
   useWhitelistPoliciesQuery,
   UserWhitelistStatus,
-  useMetaColonyQuery,
   useLoggedInUser,
 } from '~data/index';
 
@@ -37,7 +36,6 @@ const GetWhitelisted = ({ colonyAddress, userStatus }: Props) => {
   } = useWhitelistPoliciesQuery({
     variables: { colonyAddress },
   });
-  const { data } = useMetaColonyQuery();
   const { username, ethereal } = useLoggedInUser();
 
   const userHasProfile = !!username && !ethereal;
@@ -69,10 +67,11 @@ const GetWhitelisted = ({ colonyAddress, userStatus }: Props) => {
   );
 
   const openKYCDialog = useCallback(() => {
-    return data?.processedMetaColony
+    return colonyAddress.toLowerCase() ===
+      '0xA838cC8a369439091C320bEdFB6E339b66Ae8A6F'.toLowerCase()
       ? openSynapsDialog({ colonyAddress })
       : openCompleteKYCDialog();
-  }, [data, openSynapsDialog, colonyAddress, openCompleteKYCDialog]);
+  }, [openSynapsDialog, colonyAddress, openCompleteKYCDialog]);
 
   useEffect(() => {
     if (!userStatus || !whitelistPolicies || loadingWhitelistPolicies) {
