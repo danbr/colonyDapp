@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { extensions, getExtensionHash } from '@colony/colony-js';
+import { extensions, getExtensionHash, Extension } from '@colony/colony-js';
 
 import BreadCrumb from '~core/BreadCrumb';
 import Heading from '~core/Heading';
 import {
   useColonyExtensionsQuery,
   useNetworkExtensionVersionQuery,
+  useMetaColonyQuery,
 } from '~data/index';
 import { Address } from '~types/index';
 import { SpinnerLoader } from '~core/Preloaders';
@@ -48,6 +49,8 @@ const Extensions = ({ colonyAddress }: Props) => {
     variables: { address: colonyAddress },
   });
 
+  const { data: metaColonyData } = useMetaColonyQuery();
+
   const { data: networkExtensionData } = useNetworkExtensionVersionQuery();
 
   const installedExtensionsData = useMemo(() => {
@@ -68,6 +71,26 @@ const Extensions = ({ colonyAddress }: Props) => {
     if (data?.processedColony?.installedExtensions) {
       const { installedExtensions } = data.processedColony;
       return extensions.reduce((availableExtensions, extensionName) => {
+        /*
+         * @NOTE Temporary disable the coin machine extension for anyone other than
+         * the metacolony
+         */
+        if (
+          extensionName === Extension.CoinMachine &&
+          metaColonyData?.processedMetaColony?.colonyAddress !== colonyAddress
+        ) {
+          return availableExtensions;
+        }
+        /*
+         * @NOTE Temporary disable the whitelist extension for anyone other than
+         * the metacolony
+         */
+        if (
+          extensionName === Extension.Whitelist &&
+          metaColonyData?.processedMetaColony?.colonyAddress !== colonyAddress
+        ) {
+          return availableExtensions;
+        }
         const installedExtension = installedExtensions.find(
           ({ extensionId }) => extensionName === extensionId,
         );
