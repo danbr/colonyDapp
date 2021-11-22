@@ -61,7 +61,7 @@ const LEARN_MORE_LINK =
 /*
  * @TEMP This is temporary while we get ready for the token sale
  */
-const DISABLE_CHAT_UTIL_SALE = false;
+const DISABLE_CHAT_UTIL_SALE = true;
 
 const CoinMachine = ({
   colony: { colonyAddress, colonyName },
