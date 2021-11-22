@@ -83,7 +83,7 @@ export const getProcessedColony = async (
 ) => {
   const {
     colonyChainId,
-    ensName,
+    ensName: brokenEnsName,
     metadata,
     token,
     metadataHistory = [],
@@ -97,6 +97,20 @@ export const getProcessedColony = async (
 
   const prevIpfsHash = metadataHistory.slice(-1).pop();
   const ipfsHash = metadata || prevIpfsHash?.metadata || null;
+
+  /*
+   * @HHHHHHHHAAAAAAAAAAAAAAAACCCCCCCCCCCCCCCCKKKKKKKKKKKKKKKKKK
+   * As you may note, this is a hack put in place to deal with a wrongly
+   * synced subgraph and it's required to be here termporarely (a matter of hours)
+   * It will be removed once this all blows over
+   */
+  const ensName = brokenEnsName.includes('.joincolony.eth')
+    ? brokenEnsName.replace('.joincolony.eth', '.joincolony.colonyxdai')
+    : brokenEnsName;
+
+  if (ensName !== brokenEnsName) {
+    log.verbose(`Converted colony name ${brokenEnsName} ---> ${ensName}`);
+  }
 
   /*
    * Fetch the colony's metadata
