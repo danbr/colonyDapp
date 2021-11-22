@@ -8,6 +8,7 @@ import {
 import { Location } from 'history';
 import { StaticContext } from 'react-router';
 
+import userflow from 'userflow.js';
 import BetaCautionAlert from '~core/BetaCautionAlert';
 import FeedbackWidget from '~core/FeedbackWidget';
 import { RouteComponentProps } from '~pages/RouteLayouts';
@@ -31,6 +32,9 @@ interface Props extends RouteProps {
   routeProps?: RouteComponentProps;
   path?: string;
 }
+
+// Initiate Userflow
+userflow.init('ct_snrheuld3nbe3exppc4foxcb54');
 
 const WalletRequiredRoute = ({
   component: Component,
