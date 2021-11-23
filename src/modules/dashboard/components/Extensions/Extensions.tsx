@@ -115,7 +115,7 @@ const Extensions = ({ colonyAddress }: Props) => {
       }, []);
     }
     return [];
-  }, [data, networkExtensionData]);
+  }, [colonyAddress, data, metaColonyData, networkExtensionData]);
 
   if (loading) {
     return (
