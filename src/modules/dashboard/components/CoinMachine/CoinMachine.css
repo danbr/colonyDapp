@@ -19,8 +19,7 @@
 
 .grid {
   display: grid;
-  margin-top: 40px;
-  height: calc(100vh - 300px);
+  margin: 40px 0 20px;
   min-height: 600px;
   width: 1030px;
   grid-template-columns: [buy] 340px [remaining] 220px [comments] auto;
